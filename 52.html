@@ -1,0 +1,377 @@
+<html lang="zh-CN">
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>导师专属导航</title> 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+
+    body {
+      background: #fff;
+      padding: 16px;
+    }
+
+    /* 头部区域样式 */
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .header img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+
+    .header .title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header .title-group .title {
+      font-size: 16px;
+      color: #333;
+    }
+
+    .header .title-group .sub-title {
+      font-size: 14px;
+      color: #999;
+    }
+
+    /* 黑色 banner 样式 */
+    .banner {
+      background: #000;
+      color: #fff;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    /* 2张图无限滑动轮播样式 */
+    .carousel {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .carousel-container {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-img {
+      width: 100%;
+      flex-shrink: 0;
+      height: auto;
+      display: block;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .dot.active {
+      background: #fff;
+    }
+
+    /* 标签栏样式 */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .tab-bar .tab {
+      padding: 8px 16px;
+      background: #f2f2f2;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-bar .tab:hover {
+      background: #ddd;
+    }
+
+    .tab-bar .tab.active {
+      background: #333;
+      color: #fff;
+    }
+
+    /* 内容卡片样式 */
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .card .item {
+      width: calc(25% - 12px);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .card .item:hover {
+      transform: scale(1.05);
+    }
+
+    .card .item img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    /* 底部信息样式 */
+    .bottom-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bottom-bar img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .bottom-bar .text {
+      color: #333;
+    }
+  </style> 
+  <!-- 若使用jQuery需确保路径正确，此处保留原引入但建议检查实际文件是否存在 -->
+  <script src="js/jq.js"></script> 
+ </head> 
+ <body id="v1"> 
+  <!-- 头部区域 --> 
+  <div id="v2" class="header"> 
+   <img id="v3" src="https://s21.ax1x.com/2025/08/24/pVsXmb4.md.jpg" alt=""> 
+   <div id="v4" class="title-group"> 
+    <div id="v5" class="title">
+      欢迎来到导师的专属导航 
+    </div> 
+    <div id="v6" class="sub-title">
+      平台大水 
+    </div> 
+   </div> 
+  </div> 
+  <!-- 黑色 banner --> 
+  <div id="v7" class="banner"> 
+   <p id="v8">老师的联系方式联系：569146979</p> 
+   <p id="v9">充100送100链接 1号jh9非凡f 截图以防丢失</p> 
+  </div> 
+  <!-- 2张图无限滑动轮播 --> 
+  <div class="carousel" id="carousel"> 
+   <div class="carousel-container" id="carouselContainer" style="transform: translateX(-100%);"> 
+    <img src="https://s21.ax1x.com/2025/08/24/pVsXJKO.md.jpg" alt="照片2" class="carousel-img" id="img2Copy"> 
+    <img src="https://s21.ax1x.com/2025/08/24/pVsXtqe.md.jpg" alt="照片1" class="carousel-img" id="img1"> 
+    <img src="https://s21.ax1x.com/2025/08/24/pVsXJKO.md.jpg" alt="照片2" class="carousel-img" id="img2"> 
+   </div> 
+   <div id="v10" class="carousel-dots"> 
+    <div id="v11" class="dot active" onclick="switchToImg(1)"></div> 
+    <div id="v12" class="dot" onclick="switchToImg(2)"></div> 
+   </div> 
+  </div> 
+  <!-- 标签栏：保留分类一、二、三 --> 
+  <div id="v13" class="tab-bar"> 
+   <div id="v14" class="tab active" onclick="showTab('tab1')">
+     大水平台 
+   </div> 
+   <div id="v15" class="tab" onclick="showTab('tab2')">
+     模拟器 
+   </div> 
+   <div id="v16" class="tab" onclick="showTab('tab3')">
+     男人的福利 
+   </div> 
+  </div> 
+  <!-- 分类一内容卡片：保留2个可跳转项（内容1、2） --> 
+  <div class="card" id="tab1" style="display: block;"> 
+   <div id="v17" class="item" onclick="window.location.href='https://wcwx.paradisemall.net/app/register.php?site_id=800&amp;topId=9328096'"> 
+    <img id="v18" src="https://s21.ax1x.com/2025/08/24/pVsX18x.jpg" alt="图标1"> 
+    <div id="v19">
+      壹号 
+    </div> 
+   </div> 
+   <div id="v20" class="item" onclick="window.location.href='https://wcwx.paradisemall.net/app/register.php?site_id=1050&amp;topId=1272041&amp;selfPlanId=1169794'"> 
+    <img id="v21" src="https://s21.ax1x.com/2025/08/24/pVsXDRP.jpg" alt="图标2"> 
+    <div id="v22">
+      非凡 
+    </div> 
+   </div> 
+  </div> 
+  <!-- 分类二内容卡片：仅保留1个可跳转项（内容1） --> 
+  <div class="card" id="tab2" style="display: none;"> 
+   <div id="v23" class="item" onclick="window.location.href='https://xs8.top/pg.html'"> 
+    <img id="v24" src="https://s21.ax1x.com/2025/08/24/pVsj9sO.jpg" alt="分类二图标1"> 
+    <div id="v25">
+      pg模拟器 
+    </div> 
+   </div> 
+  </div> 
+  <!-- 分类三内容卡片：仅保留1个可跳转项（内容1） --> 
+  <div class="card" id="tab3" style="display: none;"> 
+   <div id="v26" class="item" onclick="window.location.href='https://w62pv.mbsmjjg.top/'"> 
+    <img id="v27" src="https://s21.ax1x.com/2025/08/24/pVsjFdH.jpg" alt="男人的快乐"> 
+    <div id="v28">
+      男人天堂软件 
+    </div> 
+   </div> 
+  </div> 
+  <!-- 底部信息 --> 
+  <div id="v29" class="bottom-bar"> 
+   <img id="v30" src="https://s21.ax1x.com/2025/08/24/pVsXmb4.jpg" alt="底部图标"> 
+   <div id="v31" class="text">交流群:187253520 联系：566126979</div> 
+  </div> 
+  <script>
+    // 标签切换函数
+    function showTab(tabId) {
+      const allTabs = document.querySelectorAll('.card');
+      allTabs.forEach(tab => tab.style.display = 'none');
+      document.getElementById(tabId).style.display = 'block';
+      const tabButtons = document.querySelectorAll('.tab');
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+    }
+
+    // 2张图无限滑动核心逻辑
+    const carouselContainer = document.getElementById('carouselContainer');
+    const dots = document.querySelectorAll('.dot');
+    let currentPos = 1; // 初始位置对应第1张图（中间真实图）
+    const imgWidth = 100; // 单张图宽度占比（百分比）
+    let isSliding = false;
+
+    // 修复1：移除冗余的初始transform赋值（与HTML内联样式重复）
+
+    // 手动切换图片函数
+    function switchToImg(targetImg) {
+      if (isSliding) return;
+      isSliding = true;
+
+      if (targetImg === 1) {
+        currentPos = 1;
+        carouselContainer.style.transform = `translateX(-${currentPos * imgWidth}%)`;
+        dots[0].classList.add('active');
+        dots[1].classList.remove('active');
+      } else if (targetImg === 2) {
+        currentPos = 2;
+        carouselContainer.style.transform = `translateX(-${currentPos * imgWidth}%)`;
+        dots[1].classList.add('active');
+        dots[0].classList.remove('active');
+      }
+
+      setTimeout(() => isSliding = false, 500); // 滑动结束后解锁
+    }
+
+    // 自动轮播函数（单独提取，避免重复代码）
+    function autoSlide() {
+      if (isSliding) return;
+      isSliding = true;
+
+      currentPos++;
+      carouselContainer.style.transform = `translateX(-${currentPos * imgWidth}%)`;
+
+      // 当滑动到第3张图（复制的第2张图）时，无缝切回第1张图
+      if (currentPos === 3) {
+        setTimeout(() => {
+          currentPos = 1;
+          carouselContainer.style.transition = 'none'; // 取消过渡，实现无缝
+          carouselContainer.style.transform = `translateX(-${currentPos * imgWidth}%)`;
+          setTimeout(() => carouselContainer.style.transition = 'transform 0.5s ease', 50); // 恢复过渡
+        }, 500);
+        dots[0].classList.add('active'); // 切回第1张图，激活对应dot
+        dots[1].classList.remove('active');
+      } else if (currentPos === 2) {
+        // 滑动到第2张图，激活对应dot
+        dots[1].classList.add('active');
+        dots[0].classList.remove('active');
+      }
+
+      setTimeout(() => isSliding = false, 500);
+    }
+
+    // 修复2：初始化自动轮播（使用单独函数，避免重复逻辑）
+    let autoSlideTimer = setInterval(autoSlide, 3000);
+
+    // 鼠标悬停暂停轮播，离开恢复
+    const carousel = document.getElementById('carousel');
+    carousel.addEventListener('mouseenter', () => clearInterval(autoSlideTimer));
+    carousel.addEventListener('mouseleave', () => {
+      autoSlideTimer = setInterval(autoSlide, 3000);
+    });
+
+    // 触摸滑动逻辑（修复触摸结束后自动轮播的重复绑定问题）
+    let startX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      clearInterval(autoSlideTimer); // 触摸时暂停自动轮播
+    });
+
+    carousel.addEventListener('touchend', (e) => {
+      if (isSliding) return;
+      const endX = e.changedTouches[0].clientX;
+      const slideDiff = startX - endX; // 滑动距离差（正：左滑，负：右滑）
+
+      // 左滑：下一张
+      if (slideDiff > 50) {
+        if (currentPos === 1) {
+          switchToImg(2);
+        } else if (currentPos === 2) {
+          autoSlide(); // 直接调用自动滑动函数，避免重复逻辑
+        }
+      } 
+      // 右滑：上一张
+      else if (slideDiff < -50) {
+        if (currentPos === 2) {
+          switchToImg(1);
+        } else if (currentPos === 1) {
+          // 右滑到第0张图（复制的第2张图），无缝切回第2张图
+          currentPos = 0;
+          carouselContainer.style.transform = `translateX(-${currentPos * imgWidth}%)`;
+          setTimeout(() => {
+            currentPos = 2;
+            carouselContainer.style.transition = 'none';
+            carouselContainer.style.transform = `translateX(-${currentPos * imgWidth}%)`;
+            setTimeout(() => carouselContainer.style.transition = 'transform 0.5s ease', 50);
+          }, 500);
+          dots[1].classList.add('active');
+          dots[0].classList.remove('active');
+        }
+      }
+
+      // 恢复自动轮播
+      autoSlideTimer = setInterval(autoSlide, 3000);
+      setTimeout(() => isSliding = false, 500);
+    });
+
+    // 修复3：删除底部冗余的错误代码（原代码末尾的 "} autoSlideTimer = ..." 片段）
+  </script>
+ </body>
+</html>
